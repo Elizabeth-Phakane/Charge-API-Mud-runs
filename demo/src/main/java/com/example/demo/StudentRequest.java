@@ -2,31 +2,22 @@ package com.example.demo;
 
 public class StudentRequest {
 
-    String studentID ;
+    int studentID ;
     String studentName;
     String studentSurname;
     String address;
     String email;
 
-    /*StudentRequest( String studentID, String studentName, String studentSurname, String address, String email) {
-        this.studentID = studentID;
-        this.studentName = studentName;
-        this.studentSurname = studentSurname;
-        this.address = address;
-        this.email = email;
+    StudentRequest( ) {
+
     }
 
 
-
-     */
-
-
-
-        public String getStudentID() {
+        public int getStudentID() {
         return studentID;
-    }
+        }
 
-    public void setStudentID(String studentID) {
+    public void setStudentID(int studentID) {
         this.studentID = studentID;
     }
 

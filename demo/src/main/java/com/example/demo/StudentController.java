@@ -3,23 +3,15 @@ package com.example.demo;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestBody;
-
-
-
+import org.springframework.web.bind.annotation.PathVariable;
 import java.util.ArrayList;
 
 
 @RestController
 public class StudentController  {
 
-   // StudentRequest s1 = new StudentRequest("2","Sam","P","V","S");
+    //arraylist to store students
     ArrayList<StudentRequest> studentList = new ArrayList<>();
-    StudentRequest s1 = new StudentRequest();
-
-
-
-
-
 
     @GetMapping("/")
     public String hello(){
@@ -47,7 +39,7 @@ public class StudentController  {
     public String methodfour(){
         return "This is put method";}
 
-
+    //Add a new student to the arraylist
     @PostMapping("/addstudent")
     public StudentResponse addStudent  (@RequestBody StudentRequest studentRequest) {
         studentList.add(studentRequest);
@@ -58,6 +50,8 @@ public class StudentController  {
         return response;
     }
 
+
+    //Selecting all the student from the arraylist
     @GetMapping("/allstudents")
     public ArrayList<StudentRequest> student () {
         return studentList;
@@ -65,17 +59,56 @@ public class StudentController  {
 
 
 
+   //Deleting a specific student using the studentID
     @DeleteMapping("/deletestudent/{studentID}")
-    public void deleteStudent (@PathVariable String studentID){
+    public String deleteStudent(@PathVariable int studentID){
+        String result ="";
+        for(StudentRequest student : studentList){
+            if(student.getStudentID() == studentID){
+                studentList.remove(student);
+                result = "student deleted";
+            } else {
+                result = "Sorry, student not found";
+            }
+        }
 
-        StudentRequest result = studentList.get(Integer.parseInt(studentID));
-        System.out.println("The index is "+ result);
-       //studentList.get(Integer.parseInt(studentID));
-
-        studentList.remove(result);
-
-
+        return result;
     }
+
+
+    //Retrieving a single student from the arraylist using the studentID
+    @GetMapping("/getstudent/{studentID}")
+    public StudentRequest getStudent(@PathVariable int studentID){
+    StudentRequest tempStudent = null;
+    for(StudentRequest student: studentList){
+        if(student.getStudentID() == studentID){
+            tempStudent = student;
+
+        }
+    }
+
+    return tempStudent;
+}
+
+
+//Updating the values of a student
+@PutMapping("/updatestudent")
+public StudentRequest updateStudent( @RequestBody StudentRequest reqStudent){
+
+    for(StudentRequest student: studentList){
+        if(student.getStudentID() == student.getStudentID()){
+            student.setStudentName(reqStudent.getStudentName());
+            student.setStudentSurname(reqStudent.getStudentSurname());
+            student.setAddress(reqStudent.getAddress());
+            student.setEmail(reqStudent.getEmail());
+
+            reqStudent = student;
+
+        }
+    }
+
+    return reqStudent;
+}
 
 
 
